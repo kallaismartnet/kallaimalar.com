@@ -5,17 +5,15 @@ const qrcode = require('qrcode-terminal');
 const app = express();
 app.use(express.json());
 
-
+// 🔴 சரிசெய்யப்பட்ட Client அமைப்பு மற்றும் Cloud Server கமாண்டுகள்
 const client = new Client({
     authStrategy: new LocalAuth(),
-    puppeteer: { 
-        const client = new Client({
     puppeteer: {
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     }
 });
-        
-   client.on('qr', (qr) => {
+
+client.on('qr', (qr) => {
     console.log('கீழே உள்ள QR கோடை உங்கள் மொபைல் WhatsApp-ல் ஸ்கேன் செய்யவும்:');
     qrcode.generate(qr, { small: true });
 });
@@ -38,6 +36,8 @@ app.post('/send-message', async (req, res) => {
     }
 });
 
-app.listen(3000, '127.0.0.1', () => {
-    console.log('🚀 Node.js WhatsApp API Port 3000-ல் இயங்குகிறது...');
+// 🔴 Cloud Server-க்கு ஏற்ற Port அமைப்பு
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`🚀 Node.js WhatsApp API Port ${PORT}-ல் இயங்குகிறது...`);
 });
