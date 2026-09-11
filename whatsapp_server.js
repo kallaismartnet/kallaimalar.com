@@ -9,12 +9,13 @@ app.use(express.json());
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: { 
-        executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', // உங்கள் கணினியின் Chrome பாதை
-        args: ['--no-sandbox', '--disable-setuid-sandbox'] 
+        const client = new Client({
+    puppeteer: {
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
     }
 });
-
-client.on('qr', (qr) => {
+        
+   client.on('qr', (qr) => {
     console.log('கீழே உள்ள QR கோடை உங்கள் மொபைல் WhatsApp-ல் ஸ்கேன் செய்யவும்:');
     qrcode.generate(qr, { small: true });
 });
