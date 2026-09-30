@@ -5,7 +5,7 @@ const qrcode = require('qrcode');
 const app = express();
 app.use(express.json());
 
-let qrCodeHtml = "<h3 style='text-align:center; margin-top:50px;'>QR Code இன்னும் தயாராகவில்லை... 1 நிமிடம் கழித்து Page-ஐ Refresh செய்யவும்...</h3>";
+let qrCodeHtml = "<h3 style='text-align:center; margin-top:50px; font-family:sans-serif;'>QR Code innum thayaragavillai... 30 seconds kazhithu intha Page-ai Refresh seyyavum...</h3>";
 
 const client = new Client({
     authStrategy: new LocalAuth(),
@@ -15,22 +15,30 @@ const client = new Client({
 });
 
 client.on('qr', async (qr) => {
-    console.log('✅ QR Code ரெடி! பிரவுசர் லிங்கில் பார்க்கவும்.');
+    console.log('✅ QR Code Ready! Browser link-il paarkavum.');
     const qrImage = await qrcode.toDataURL(qr);
-    qrCodeHtml = `<div style="text-align:center; margin-top:50px;">
-                    <h2>WhatsApp-ஐ Connect செய்ய ஸ்கேன் செய்யவும்</h2>
-                    <img src="${qrImage}" style="width:300px; height:300px; border:2px solid #000; padding:10px;"/>
-                  </div>`;
+    qrCodeHtml = `
+        <div style="text-align:center; margin-top:50px; font-family: Arial, sans-serif;">
+            <h2>WhatsApp-ai Connect seyya Scan seyyavum</h2>
+            <img src="${qrImage}" style="width:300px; height:300px; border:2px solid #000; padding:10px; border-radius:10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);"/>
+            <p style="color: #666; margin-top: 20px;">Scan seitha pinpu, sirithu neram kaathirukkavum...</p>
+        </div>
+    `;
 });
 
 client.on('ready', () => {
-    console.log('✅ WhatsApp வெற்றிகரமாக கனெக்ட் ஆகிவிட்டது!');
-    qrCodeHtml = `<h2 style="color:green; text-align:center; margin-top:50px;">✅ WhatsApp வெற்றிகரமாக கனெக்ட் ஆகிவிட்டது!</h2>`;
+    console.log('✅ WhatsApp Vetrigaramaga Connect Aagivittathu!');
+    qrCodeHtml = `
+        <div style="text-align:center; margin-top:50px; font-family: Arial, sans-serif;">
+            <h2 style="color:green;">✅ WhatsApp Vetrigaramaga Connect Aagivittathu!</h2>
+            <p>Inimel messages thaanaaga sellum.</p>
+        </div>
+    `;
 });
 
 client.initialize();
 
-// பிரவுசரில் QR கோடைப் பார்ப்பதற்கான புதிய வழி
+// Browser-il QR Code-ai paarkka route
 app.get('/qr', (req, res) => {
     res.send(qrCodeHtml);
 });
@@ -47,7 +55,7 @@ app.post('/send-message', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-    console.log(`🚀 API Server Port ${PORT}-ல் இயங்குகிறது...`);
+    console.log(`🚀 API Server Port ${PORT}-il iyangugirathu...`);
 });
